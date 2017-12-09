@@ -8,6 +8,7 @@ namespace KVstore
     {
         static void Main(string[] args)
         {
+
             string baseAddress1 = "http://localhost:9001/";
             string baseAddress2 = "http://localhost:9002/";
             string baseAddress3 = "http://localhost:9003/";
@@ -15,7 +16,7 @@ namespace KVstore
             string baseAddress5 = "http://localhost:9005/";
 
             // Start OWIN host1 
-            using (WebApp.Start<Startup>(url: baseAddress1))
+            WebApp.Start<Startup>(url: baseAddress1);
             {
                 // Create HttpCient and make a request to api/values 
                 HttpClient client1 = new HttpClient();
@@ -24,11 +25,11 @@ namespace KVstore
 
                 Console.WriteLine(response1);
                 Console.WriteLine(response1.Content.ReadAsStringAsync().Result);
-                Console.ReadLine();
+                //Console.ReadKey();
             }
 
             // Start OWIN host2 
-            using (WebApp.Start<Startup1>(url: baseAddress2))
+            WebApp.Start<Startup>(url: baseAddress2);
             {
                 // Create HttpCient and make a request to api/values 
                 HttpClient client2 = new HttpClient();
@@ -37,10 +38,10 @@ namespace KVstore
 
                 Console.WriteLine(response2);
                 Console.WriteLine(response2.Content.ReadAsStringAsync().Result);
-                Console.ReadLine();
+                //Console.ReadKey();
             }
             // Start OWIN host3 
-            using (WebApp.Start<Startup>(url: baseAddress3))
+            WebApp.Start<Startup>(url: baseAddress3);
             {
                 // Create HttpCient and make a request to api/values 
                 HttpClient client3 = new HttpClient();
@@ -49,10 +50,10 @@ namespace KVstore
 
                 Console.WriteLine(response3);
                 Console.WriteLine(response3.Content.ReadAsStringAsync().Result);
-                Console.ReadLine();
+
             }
             // Start OWIN host4 
-            using (WebApp.Start<Startup>(url: baseAddress4))
+            WebApp.Start<Startup>(url: baseAddress4);
             {
                 // Create HttpCient and make a request to api/values 
                 HttpClient client4 = new HttpClient();
@@ -61,10 +62,10 @@ namespace KVstore
 
                 Console.WriteLine(response4);
                 Console.WriteLine(response4.Content.ReadAsStringAsync().Result);
-                Console.ReadLine();
+
             }
             // Start OWIN host5 
-            using (WebApp.Start<Startup>(url: baseAddress5))
+            WebApp.Start<Startup>(url: baseAddress5);
             {
                 // Create HttpCient and make a request to api/values 
                 HttpClient client5 = new HttpClient();
@@ -73,10 +74,9 @@ namespace KVstore
 
                 Console.WriteLine(response5);
                 Console.WriteLine(response5.Content.ReadAsStringAsync().Result);
-                Console.ReadLine();
+
             }
-
-
+            Console.ReadLine();
         }
     }
 }
