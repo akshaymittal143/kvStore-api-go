@@ -12,14 +12,12 @@ namespace KVstore
         // GET api/values 
         public Dictionary<int, string> Get()
         {
-            //return new string[] { "value1", "value2" };
             return dictionary;
         }
 
         // GET api/values/5 
         public string Get(int id)
         {
-
             string result;
             if (dictionary.TryGetValue(id, out result))
             {
