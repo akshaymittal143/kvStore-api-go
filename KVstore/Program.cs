@@ -1,82 +1,66 @@
 ﻿using Microsoft.Owin.Hosting;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading;
 
 namespace KVstore
 {
     public class Program
     {
+        private static readonly ManualResetEvent _wait = new ManualResetEvent(initialState: false);
+
         static void Main(string[] args)
         {
+            Console.CancelKeyPress += Console_CancelKeyPress;
 
-            string baseAddress1 = "http://localhost:9001/";
-            string baseAddress2 = "http://localhost:9002/";
-            string baseAddress3 = "http://localhost:9003/";
-            string baseAddress4 = "http://localhost:9004/";
-            string baseAddress5 = "http://localhost:9005/";
-
-            // Start OWIN host1 
-            WebApp.Start<Startup>(url: baseAddress1);
+            var baseAddresses = new[]
             {
-                // Create HttpCient and make a request to api/values 
+                "http://localhost:9001/",
+                "http://localhost:9002/",
+                "http://localhost:9003/",
+                "http://localhost:9004/",
+                "http://localhost:9005/"
+            };
+
+            var httpListeners = new List<IDisposable>();
+            foreach (var baseAddress in baseAddresses)
+            {
+                var listener = WebApp.Start<Startup>(baseAddress);
+                httpListeners.Add(listener);
+            }
+
+            foreach (var baseAddress in baseAddresses)
+            {
                 HttpClient client1 = new HttpClient();
 
-                var response1 = client1.GetAsync(baseAddress1 + "api/values").Result;
+                var response1 = client1.GetAsync(baseAddress + "api/values").Result;
 
                 Console.WriteLine(response1);
                 Console.WriteLine(response1.Content.ReadAsStringAsync().Result);
-                //Console.ReadKey();
             }
 
-            // Start OWIN host2 
-            WebApp.Start<Startup>(url: baseAddress2);
+            Console.WriteLine("Listening... Press ^C to quit");
+
+            _wait.WaitOne();
+
+            Console.WriteLine("Shutting down...");
+
+            for (int i = 0; i < httpListeners.Count; i++)
             {
-                // Create HttpCient and make a request to api/values 
-                HttpClient client2 = new HttpClient();
+                Console.WriteLine("Stopping listener {0}...", i + 1);
 
-                var response2 = client2.GetAsync(baseAddress2 + "api/values").Result;
-
-                Console.WriteLine(response2);
-                Console.WriteLine(response2.Content.ReadAsStringAsync().Result);
-                //Console.ReadKey();
+                var listener = httpListeners[i];
+                listener.Dispose();
             }
-            // Start OWIN host3 
-            WebApp.Start<Startup>(url: baseAddress3);
-            {
-                // Create HttpCient and make a request to api/values 
-                HttpClient client3 = new HttpClient();
 
-                var response3 = client3.GetAsync(baseAddress3 + "api/values").Result;
+            Console.WriteLine("Shutdown complete.");
+        }
 
-                Console.WriteLine(response3);
-                Console.WriteLine(response3.Content.ReadAsStringAsync().Result);
-
-            }
-            // Start OWIN host4 
-            WebApp.Start<Startup>(url: baseAddress4);
-            {
-                // Create HttpCient and make a request to api/values 
-                HttpClient client4 = new HttpClient();
-
-                var response4 = client4.GetAsync(baseAddress4 + "api/values").Result;
-
-                Console.WriteLine(response4);
-                Console.WriteLine(response4.Content.ReadAsStringAsync().Result);
-
-            }
-            // Start OWIN host5 
-            WebApp.Start<Startup>(url: baseAddress5);
-            {
-                // Create HttpCient and make a request to api/values 
-                HttpClient client5 = new HttpClient();
-
-                var response5 = client5.GetAsync(baseAddress5 + "api/values").Result;
-
-                Console.WriteLine(response5);
-                Console.WriteLine(response5.Content.ReadAsStringAsync().Result);
-
-            }
-            Console.ReadLine();
+        private static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
+        {
+            e.Cancel = true;
+            _wait.Set();
         }
     }
 }
