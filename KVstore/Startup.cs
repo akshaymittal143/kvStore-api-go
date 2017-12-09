@@ -10,14 +10,23 @@ namespace KVstore
         public void Configuration(IAppBuilder appBuilder)
         {
             // Configure Web API for self-host. 
-            HttpConfiguration config = new HttpConfiguration();
-            config.Routes.MapHttpRoute(
+            HttpConfiguration config1 = new HttpConfiguration();
+            config1.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            appBuilder.UseWebApi(config);
+            // Configure Web API for self-host. 
+            HttpConfiguration config2 = new HttpConfiguration();
+            config2.Routes.MapHttpRoute(
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional }
+            );
+
+            appBuilder.UseWebApi(config1);
+            appBuilder.UseWebApi(config2);
         }
     }
 }

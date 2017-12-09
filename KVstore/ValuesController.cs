@@ -9,7 +9,6 @@ namespace KVstore
     {
         static Dictionary<int, string> dictionary = new Dictionary<int, string>();
 
-
         // GET api/values 
         public Dictionary<int, string> Get()
         {
@@ -29,7 +28,6 @@ namespace KVstore
 
             HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.NotFound, "Not Found");
             return response.ToString();
-
         }
 
         // POST api/values 
@@ -52,7 +50,6 @@ namespace KVstore
         // DELETE api/values/5 
         public string Delete(int id)
         {
-
             if (dictionary.ContainsKey(id))
             {
                 dictionary.Remove(id);

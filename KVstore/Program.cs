@@ -20,22 +20,23 @@ namespace KVstore
                 // Create HttpCient and make a request to api/values 
                 HttpClient client1 = new HttpClient();
 
-                var response = client1.GetAsync(baseAddress1 + "api/values").Result;
+                var response1 = client1.GetAsync(baseAddress1 + "api/values").Result;
 
-                Console.WriteLine(response);
-                Console.WriteLine(response.Content.ReadAsStringAsync().Result);
+                Console.WriteLine(response1);
+                Console.WriteLine(response1.Content.ReadAsStringAsync().Result);
                 Console.ReadLine();
             }
+
             // Start OWIN host2 
-            using (WebApp.Start<Startup>(url: baseAddress2))
+            using (WebApp.Start<Startup1>(url: baseAddress2))
             {
                 // Create HttpCient and make a request to api/values 
                 HttpClient client2 = new HttpClient();
 
-                var response = client2.GetAsync(baseAddress2 + "api/values").Result;
+                var response2 = client2.GetAsync(baseAddress2 + "api/values").Result;
 
-                Console.WriteLine(response);
-                Console.WriteLine(response.Content.ReadAsStringAsync().Result);
+                Console.WriteLine(response2);
+                Console.WriteLine(response2.Content.ReadAsStringAsync().Result);
                 Console.ReadLine();
             }
             // Start OWIN host3 
@@ -44,10 +45,10 @@ namespace KVstore
                 // Create HttpCient and make a request to api/values 
                 HttpClient client3 = new HttpClient();
 
-                var response = client3.GetAsync(baseAddress3 + "api/values").Result;
+                var response3 = client3.GetAsync(baseAddress3 + "api/values").Result;
 
-                Console.WriteLine(response);
-                Console.WriteLine(response.Content.ReadAsStringAsync().Result);
+                Console.WriteLine(response3);
+                Console.WriteLine(response3.Content.ReadAsStringAsync().Result);
                 Console.ReadLine();
             }
             // Start OWIN host4 
@@ -56,10 +57,10 @@ namespace KVstore
                 // Create HttpCient and make a request to api/values 
                 HttpClient client4 = new HttpClient();
 
-                var response = client4.GetAsync(baseAddress4 + "api/values").Result;
+                var response4 = client4.GetAsync(baseAddress4 + "api/values").Result;
 
-                Console.WriteLine(response);
-                Console.WriteLine(response.Content.ReadAsStringAsync().Result);
+                Console.WriteLine(response4);
+                Console.WriteLine(response4.Content.ReadAsStringAsync().Result);
                 Console.ReadLine();
             }
             // Start OWIN host5 
@@ -68,10 +69,10 @@ namespace KVstore
                 // Create HttpCient and make a request to api/values 
                 HttpClient client5 = new HttpClient();
 
-                var response = client5.GetAsync(baseAddress5 + "api/values").Result;
+                var response5 = client5.GetAsync(baseAddress5 + "api/values").Result;
 
-                Console.WriteLine(response);
-                Console.WriteLine(response.Content.ReadAsStringAsync().Result);
+                Console.WriteLine(response5);
+                Console.WriteLine(response5.Content.ReadAsStringAsync().Result);
                 Console.ReadLine();
             }
 
