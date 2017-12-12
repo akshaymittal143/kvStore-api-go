@@ -29,8 +29,9 @@ namespace KVstore
         }
 
         // POST api/values 
-        public string Post([FromBody]string value)
+        public string Post([FromBody] string value)
         {
+
             int count = dictionary.Count;
             dictionary.Add(count + 1, value);
             HttpResponseMessage Sucessresponse = Request.CreateResponse(HttpStatusCode.Created, "Created Sucessfully");

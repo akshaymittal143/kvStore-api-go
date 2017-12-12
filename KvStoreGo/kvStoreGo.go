@@ -6,12 +6,23 @@ import (
 "net/http"
 "os"
 
-	"strings"
 
-	"io"
+	"encoding/json"
+	"bytes"
 )
 func main() {
-	response, err := http.Get("http://localhost:9001/api/values/")
+	// Create two requests (PUT and POST)
+	putRequest := newValueRequest(http.MethodPut, "http://localhost:9002/api/values/2", "foo")
+	postRequest := newValueRequest(http.MethodPost, "http://localhost:9001/api/values", "bar")
+
+	// Setup a HTTP client
+	c := &http.Client{}
+
+	// Send the two requests
+	c.Do(putRequest)
+	c.Do(postRequest)
+
+	response, err := http.Get("http://localhost:9001/api/values ")
 	if err != nil {
 		fmt.Print(err.Error())
 		os.Exit(1)
@@ -21,25 +32,23 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Println(string(responseData))
-}
-
-
-func putRequest(url string, data io.Reader)  {
-	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPut, url, data)
-	if err != nil {
-		// handle error
-		log.Fatal(err)
-	}
-	_, err = client.Do(req)
-	if err != nil {
-		// handle error
-		log.Fatal(err)
-	}
 
 }
 
-func httpPutExample()  {
-	putRequest("http://localhost:9001/api/values/2", strings.NewReader("foo"))
+
+func newValueRequest(method, rawurl, value string) *http.Request {
+	b, err := json.Marshal(value)
+	if err != nil {
+		return nil
+	}
+
+	req, err := http.NewRequest(method, rawurl, bytes.NewReader(b))
+	if err != nil {
+		return nil
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+
+	return req
 }
 
