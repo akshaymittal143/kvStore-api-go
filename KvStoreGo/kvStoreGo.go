@@ -14,7 +14,7 @@ func main() {
 	countW:=0
 	countG:=0
 
-	putRequest := newValueRequest(http.MethodPut, "http://localhost:9001/api/values/2", "foo")
+	//putRequest := newValueRequest(http.MethodPut, "http://localhost:9001/api/values/2", "foo")
 
 	postRequest := newValueRequest(http.MethodPost, "http://localhost:9001/api/values", "bar")
 	countW++
@@ -32,7 +32,7 @@ func main() {
 		}
 	}
 	// Send the two requests
-	c.Do(putRequest)
+	//c.Do(putRequest)
 	c.Do(postRequest)
 
 	response, err := http.Get("http://localhost:9001/api/values")
